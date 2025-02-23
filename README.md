@@ -1,4 +1,5 @@
 # foodie-kart
+i have already hosted the website with the help of infinityfree hosting platform if you want to check the work of website without implementing any further steps you can go to this url of my foodie-kart website url:https://foodkart.42web.io/?i=1
 
 
 📌 Database Description for Foodie-Kart (foodiekart.sql)
