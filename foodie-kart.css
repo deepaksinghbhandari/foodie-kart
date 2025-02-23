@@ -1,0 +1,337 @@
+/* General Reset and Box Model */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General Body Styling */
+body {
+    background-color: rgba(255, 255, 255, 0.85); /* Slight transparency */
+    line-height: 1.6;
+    padding-top: 80px; /* Prevent content overlap with fixed navbar */
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #212529; /* Dark background */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.navbar:hover {
+    background-color: #ff5722; /* Orange on hover */
+}
+
+.navbar .nav-link {
+    color: white !important;
+    font-weight: bold;
+}
+
+.navbar .nav-link:hover {
+    color: #ff5722 !important; /* Hover effect on links */
+}
+
+.navbar .navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.navbar .navbar-brand:hover {
+    color: #ff5722; /* Orange hover effect */
+}
+
+.navbar .navbar-nav .nav-item .btn {
+    background-color: #ff5722;
+    color: white;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar .navbar-nav .nav-item .btn:hover {
+    background-color: #212529; /* Dark background on hover */
+}
+
+/* Featured Section */
+#featured {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+#featured .card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+#featured .card:hover {
+    transform: translateY(-5px);
+}
+
+/* Food Menu Section */
+#food-menu h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+#food-menu .card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+#food-menu .card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+#food-menu .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+#food-menu .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: black;
+}
+
+#food-menu .card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+#food-menu .price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ff5722;
+}
+
+#food-menu .btn {
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #ff5722;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#food-menu .btn:hover {
+    background-color: #212529;
+    color: white;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #212529;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+footer ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+    color: #ff5722;
+}
+
+footer .social-icons i {
+    margin-right: 15px;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+footer .social-icons i:hover {
+    color: #ff5722;
+}
+
+footer p {
+    font-size: 0.875rem;
+}
+
+/* Contact Us Section */
+#contact-us {
+    padding: 60px 0;
+    background-color: #f5f5f5;
+    text-align: center;
+}
+
+#contact-us h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+#contact-us p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+#contact-us .form-group label {
+    font-weight: bold;
+}
+
+#contact-us .form-control {
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+#contact-us .btn {
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #ff5722;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#contact-us .btn:hover {
+    background-color: #212529;
+    color: white;
+}
+
+/* Booking Button */
+.btn-book-now {
+    background-color: #ff5722;
+    color: white;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn-book-now:hover {
+    background-color: #e64a19;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-book-now:focus {
+    outline: none;
+}
+
+/* Input Fields Styling */
+.form-control {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #ff5722;
+    box-shadow: 0 0 5px rgba(255, 87, 34, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .navbar .nav-link {
+        font-size: 14px;
+    }
+
+    #testimonials .col-md-4 {
+        flex: 1 1 100%;
+        margin-bottom: 20px;
+    }
+}
+
+/* Custom Button Style for Logout */
+.btn-logout {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    background-color: #e74c3c; /* Red color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* Remove underline for links */
+    display: inline-block;
+}
+
+.btn-logout:hover {
+    background-color: #c0392b; /* Darker red for hover effect */
+}
+
+/* Add some padding and margin for the alert message */
+.alert {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #28a745;
+    border-radius: 5px;
+}
+.cart-icon {
+    position: relative;
+    font-size: 1.2rem;
+}
+.cart-item-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    font-size: 0.75rem;
+    padding: 3px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+ .thank-you-popup {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #27ae60;
+        color: white;
+        padding: 20px;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .thank-you-popup .popup-content {
+        text-align: center;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+}
