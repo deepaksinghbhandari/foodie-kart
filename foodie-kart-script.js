@@ -41,12 +41,52 @@ const validateForm = (form, emailSelector, passwordSelector, nameSelector) => {
 const validateEmail = (email) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
 
 // Form Submit Events
-document.getElementById("loginForm").addEventListener("submit", (event) => {
-    if (!validateForm(event.target, "#loginEmail", "#loginPassword")) event.preventDefault();
-});
-document.getElementById("signUpForm").addEventListener("submit", (event) => {
-    if (!validateForm(event.target, "#signUpEmail", "#signUpPassword", "#signUpName")) event.preventDefault();
-});
+const loginForm = document.getElementById("loginForm");
+if (loginForm) {
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const emailSelector = document.querySelector("#loginEmail") ? "#loginEmail" : "#email";
+        const passwordSelector = document.querySelector("#loginPassword") ? "#loginPassword" : "#password";
+
+        if (!validateForm(event.target, emailSelector, passwordSelector)) return;
+
+        const email = document.querySelector(emailSelector).value;
+        const password = document.querySelector(passwordSelector).value;
+        const messageBox = document.getElementById("loginMessage");
+
+        try {
+            const response = await fetch(
+                `http://localhost:8080/api/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
+                { method: "POST" }
+            );
+
+            const text = await response.text();
+            if (messageBox) {
+                if (text.includes("Successful")) {
+                    messageBox.innerHTML = `<span class="text-success">✅ ${text}</span>`;
+                } else {
+                    messageBox.innerHTML = `<span class="text-danger">❌ ${text}</span>`;
+                }
+            } else {
+                alert(text);
+            }
+        } catch (err) {
+            if (messageBox) {
+                messageBox.innerHTML = `<span class="text-danger">⚠️ Server error: ${err.message}</span>`;
+            } else {
+                alert(`Server error: ${err.message}`);
+            }
+        }
+    });
+}
+
+const signUpForm = document.getElementById("signUpForm");
+if (signUpForm) {
+    signUpForm.addEventListener("submit", (event) => {
+        if (!validateForm(event.target, "#signUpEmail", "#signUpPassword", "#signUpName")) event.preventDefault();
+    });
+}
 
 // Date Validation
 document.getElementById('date').addEventListener('input', function () {
