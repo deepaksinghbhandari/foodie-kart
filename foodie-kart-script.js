@@ -1,23 +1,57 @@
 // Show/Hide Login and Sign-Up Modals
-const loginBtn = document.getElementById("loginBtn");
-const signUpBtn = document.getElementById("signUpBtn");
+const loginBtn = document.getElementById("loginBtn") || document.getElementById("login-btn");
+const signUpBtn = document.getElementById("signUpBtn") || document.getElementById("sign-up-btn");
 const closeLogin = document.getElementById("closeLogin");
 const closeSignUp = document.getElementById("closeSignUp");
 const loginModal = document.getElementById("loginModal");
 const signUpModal = document.getElementById("signUpModal");
+const hasBootstrapModal =
+  typeof window !== "undefined" &&
+  typeof window.bootstrap !== "undefined" &&
+  typeof window.bootstrap.Modal === "function";
 
 // Open Modals
-loginBtn.onclick = () => loginModal.style.display = "block";
-signUpBtn.onclick = () => signUpModal.style.display = "block";
+if (loginBtn && loginModal) {
+  if (hasBootstrapModal) {
+    const loginBsModal = window.bootstrap.Modal.getOrCreateInstance(loginModal);
+    loginBtn.onclick = () => loginBsModal.show();
+  } else {
+    loginBtn.onclick = () => (loginModal.style.display = "block");
+  }
+}
+if (signUpBtn && signUpModal) {
+  if (hasBootstrapModal) {
+    const signUpBsModal = window.bootstrap.Modal.getOrCreateInstance(signUpModal);
+    signUpBtn.onclick = () => signUpBsModal.show();
+  } else {
+    signUpBtn.onclick = () => (signUpModal.style.display = "block");
+  }
+}
 
 // Close Modals
-closeLogin.onclick = () => loginModal.style.display = "none";
-closeSignUp.onclick = () => signUpModal.style.display = "none";
+if (closeLogin && loginModal) {
+  if (hasBootstrapModal) {
+    const loginBsModal = window.bootstrap.Modal.getOrCreateInstance(loginModal);
+    closeLogin.onclick = () => loginBsModal.hide();
+  } else {
+    closeLogin.onclick = () => (loginModal.style.display = "none");
+  }
+}
+if (closeSignUp && signUpModal) {
+  if (hasBootstrapModal) {
+    const signUpBsModal = window.bootstrap.Modal.getOrCreateInstance(signUpModal);
+    closeSignUp.onclick = () => signUpBsModal.hide();
+  } else {
+    closeSignUp.onclick = () => (signUpModal.style.display = "none");
+  }
+}
 
-// Close Modal if clicked outside
+// Close Modal if clicked outside (fallback only; Bootstrap handles this natively)
 window.onclick = (event) => {
-    if (event.target === loginModal) loginModal.style.display = "none";
-    if (event.target === signUpModal) signUpModal.style.display = "none";
+  if (!hasBootstrapModal) {
+    if (loginModal && event.target === loginModal) loginModal.style.display = "none";
+    if (signUpModal && event.target === signUpModal) signUpModal.style.display = "none";
+  }
 };
 
 // Validate Forms
@@ -89,70 +123,88 @@ if (signUpForm) {
 }
 
 // Date Validation
-document.getElementById('date').addEventListener('input', function () {
-    const dateInput = this.value;
-    const currentDate = new Date();
-    const maxDate = new Date(currentDate.setDate(currentDate.getDate() + 10));
-    const currentDateStr = currentDate.toISOString().split('T')[0];
+const dateInputEl = document.getElementById('date');
+if (dateInputEl) {
+  dateInputEl.addEventListener('input', function () {
+    const selectedDateStr = this.value;
+
+    const today = new Date();
+    const maxDate = new Date(today);
+    maxDate.setDate(today.getDate() + 10);
+
+    const todayStr = today.toISOString().split('T')[0];
     const maxDateStr = maxDate.toISOString().split('T')[0];
 
-    this.setAttribute('min', currentDateStr);
+    this.setAttribute('min', todayStr);
     this.setAttribute('max', maxDateStr);
 
     const dateError = document.getElementById('dateError');
-    if (dateInput > maxDateStr) {
-        dateError.style.display = 'block';
-        dateError.textContent = 'Please select a date within 10 days from today.';
+    if (!dateError) return;
+
+    if (selectedDateStr < todayStr || selectedDateStr > maxDateStr) {
+      dateError.style.display = 'block';
+      dateError.textContent = 'Please select a date within 10 days from today.';
     } else {
-        dateError.style.display = 'none';
+      dateError.style.display = 'none';
     }
-});
+  });
+}
 
 // Booking Form Validation
 const validateBookingForm = (event) => {
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const people = document.getElementById('people').value;
-    const date = document.getElementById('date').value;
-    const time = document.getElementById('time').value;
-    const timePattern = /^(0[6-9]|1[0-1]):[0-5][0-9] (AM|PM)$/;
+  const nameValue = (document.getElementById('name')?.value || '').trim();
+  const emailValue = (document.getElementById('email')?.value || '').trim();
+  const peopleValue = parseInt(document.getElementById('people')?.value || '0', 10);
+  const dateValue = document.getElementById('date')?.value || '';
+  const timeValue = (document.getElementById('time')?.value || '').trim();
 
-    let formValid = true;
+  // Accept 6:00-11:59 AM/PM, with optional leading zero for hour
+  const timePattern = /^([0]?[6-9]|1[0-1]):[0-5][0-9] (AM|PM)$/;
 
-    if (!name.trim()) {
-        formValid = false;
-        alert("Please enter your name.");
-    }
-    if (!email.trim()) {
-        formValid = false;
-        alert("Please enter your email.");
-    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
-        formValid = false;
-        alert("Please enter a valid email.");
-    }
-    if (people < 1 || people > 10) {
-        formValid = false;
-        alert("Please enter a valid number of people (between 1 and 10).");
-    }
+  let formValid = true;
 
-    const currentDate = new Date();
-    const maxDate = new Date(currentDate.setDate(currentDate.getDate() + 10));
-    const maxDateStr = maxDate.toISOString().split('T')[0];
+  if (!nameValue) {
+    formValid = false;
+    alert("Please enter your name.");
+  }
 
-    if (date < currentDate.toISOString().split('T')[0] || date > maxDateStr) {
-        formValid = false;
-        alert("Please select a valid reservation date (within 10 days from today).");
-    }
-    if (!time.trim() || !timePattern.test(time)) {
-        formValid = false;
-        alert("Please enter a valid time in 12-hour format (e.g., 6:00 AM).");
-    }
+  if (!emailValue) {
+    formValid = false;
+    alert("Please enter your email.");
+  } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(emailValue)) {
+    formValid = false;
+    alert("Please enter a valid email.");
+  }
 
-    if (!formValid) event.preventDefault();
+  if (Number.isNaN(peopleValue) || peopleValue < 1 || peopleValue > 10) {
+    formValid = false;
+    alert("Please enter a valid number of people (between 1 and 10).");
+  }
+
+  const today = new Date();
+  const maxDate = new Date(today);
+  maxDate.setDate(today.getDate() + 10);
+  const todayStr = today.toISOString().split('T')[0];
+  const maxDateStr = maxDate.toISOString().split('T')[0];
+
+  if (!dateValue || dateValue < todayStr || dateValue > maxDateStr) {
+    formValid = false;
+    alert("Please select a valid reservation date (within 10 days from today).");
+  }
+
+  if (!timeValue || !timePattern.test(timeValue)) {
+    formValid = false;
+    alert("Please enter a valid time in 12-hour format (e.g., 6:00 AM).");
+  }
+
+  if (!formValid) event.preventDefault();
 };
 
 // Attach validation to booking form
-document.getElementById('bookingForm').addEventListener('submit', validateBookingForm);
+const bookingForm = document.getElementById('bookingForm');
+if (bookingForm) {
+  bookingForm.addEventListener('submit', validateBookingForm);
+}
 
 // Add to Cart functionality
 document.querySelectorAll('.add-to-cart').forEach((button) => {
